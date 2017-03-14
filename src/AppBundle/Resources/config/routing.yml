@@ -1,0 +1,18 @@
+homepage:
+    path:    /
+    defaults:    { _controller: 'AppBundle:Entry:index' }
+
+app_user:
+    resource: "@AppBundle/Resources/config/routing/user.yml"
+    prefix:   /user
+
+app_entry:
+    resource: "@AppBundle/Resources/config/routing/entry.yml"
+    prefix:   /entry
+
+app_hidden_tweet:
+    resource: "@AppBundle/Resources/config/routing/hidden_tweet.yml"
+    prefix:   /hiddenTweet
+
+
+

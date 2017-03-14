@@ -1,0 +1,37 @@
+{% form_theme edit_form 'bootstrap_3_horizontal_layout.html.twig' %}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Edit Entry
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-10">
+            <h3>Edit Entry</h3>
+        </div>
+    </div>
+
+    {{ form_start(edit_form) }}
+    {{ form_errors(edit_form) }}
+
+    {{ form_row(edit_form.title) }}
+    {{ form_row(edit_form.content) }}
+
+    <a class="action-button btn btn-default btn-sm" href="{{ path('entry_index') }}">Back to the list</a>
+
+    <div class="action-button">
+        {{ form_start(edit_form) }}
+        <button class="btn btn-info btn-sm" type="submit">Edit</button>
+        {{ form_end(edit_form) }}
+    </div>
+
+    <div class="action-button">
+        {{ form_start(delete_form) }}
+        <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+        {{ form_end(delete_form) }}
+    </div>
+
+{% endblock %}

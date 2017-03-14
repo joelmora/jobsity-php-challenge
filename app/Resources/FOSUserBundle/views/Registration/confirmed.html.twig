@@ -1,0 +1,21 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block title %}
+    Confirmation
+{% endblock %}
+
+{% block fos_user_content %}
+    <div id="confirmation-container">
+        <div class="message">
+            <span class="glyphicon glyphicon-check"></span> Successful Registration
+        </div>
+
+        <p>
+            <a class="btn btn-primary btn-xs" href="{{ path('homepage') }}">
+                <span class="glyphicon glyphicon-home"></span> Go to Home Page
+            </a>
+        </p>
+    </div>
+{% endblock fos_user_content %}

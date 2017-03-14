@@ -1,0 +1,9 @@
+hide_tweet:
+    path:     /hide
+    defaults: { _controller: AppBundle:HiddenTweet:hide }
+    methods:  POST
+
+unhide_tweet:
+    path:     /unhide
+    defaults: { _controller: AppBundle:HiddenTweet:unhide }
+    methods:  POST

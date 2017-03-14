@@ -1,0 +1,198 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Entries By User
+{% endblock %}
+
+{% block body %}
+    <h3>{{ username }} Entries</h3>
+
+    <div class="row">
+        <div class="col-lg-9">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Author</th>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>Creation Date</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for entry in entries %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('user_show', { 'id': entry.user.id }) }}">{{ entry.user }}</a>
+                        </td>
+                        <td>{{ entry.title }}</td>
+                        <td>{{ entry.content | slice(0,60) ~ '...'  }}</td>
+                        <td>{% if entry.creationDate %}{{ entry.creationDate|date('m/d/Y h:i A') }}{% endif %}</td>
+                        <td>
+                            <a class="btn btn-default btn-xs" href="{{ path('entry_show', { 'id': entry.id }) }}">Show</a>
+                            {% if app.user %}
+                                <a class="btn btn-info btn-xs" href="{{ path('entry_edit', { 'id': entry.id }) }}">Edit</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <a class="action-button btn btn-default btn-sm" href="{{ path('entry_index') }}">Back to the list</a>
+
+        </div>
+        <div class="col-lg-3">
+
+            <div id="twitter-panel" class="panel">
+                <div class="panel-heading"><strong>Twitter Feed</strong>
+                    <img class="logo-twitter" src="{{ asset('images/TwitterLogo.png') }}">
+                </div>
+                <div class="panel-body">
+
+                    {% for tweet in timeline %}
+                        {% set hidden = tweet.id_str in hiddenTweets %}
+
+                        {% if (app.user != username and not hidden) or (app.user == username) %}
+                            <div class="tweet">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <img class="media-object profile-picture" src="{{ tweet.user.profile_image_url }}" alt="Profile">
+                                    </div>
+                                    <div class="media-body">
+                                        <span class="media-heading username">{{ tweet.user.name }}</span>
+                                        <span class="timestamp">{{ tweet.created_at | date('d M Y') }}</span>
+                                        <div class="screen-name">@{{ tweet.user.screen_name }}</div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="text">{{ tweet.text }}</div>
+                                    </div>
+                                </div>
+
+                                {% if app.user and app.user == username %}
+
+                                    <button class="unhide-tweet btn btn-default btn-xs {{ hidden ? : 'hidden' }}" title="Unhide Tweet"
+                                            data-user-id="{{ app.user.id }}" data-tweet-id="{{ tweet.id_str }}">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                    </button>
+
+                                    <button class="hide-tweet btn btn-default btn-xs {{ hidden ? 'hidden' }}" title="Hide Tweet"
+                                            data-user-id="{{ app.user.id }}" data-tweet-id="{{ tweet.id_str }}">
+                                        <span class="glyphicon glyphicon-eye-close"></span>
+                                    </button>
+
+                                    {% if hidden %}
+                                        <div class="tweet-opacity"></div>
+                                    {% endif %}
+
+                                {% endif %}
+
+                            </div>
+                        {% endif %}
+
+                    {% endfor %}
+
+                    {% if timeline is empty %}
+                        <span id="no-tweets">Twitter feed couldn't be loaded, check twitter username and try again</span>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(function()
+        {
+            function hideTweet(tweetContainer)
+            {
+                tweetContainer.append('<div class="tweet-opacity"></div>');
+
+                tweetContainer.find('.unhide-tweet').removeClass('hidden');
+                tweetContainer.find('.hide-tweet').addClass('hidden');
+            }
+
+            function unhideTweet(tweetContainer)
+            {
+                tweetContainer.find('.tweet-opacity').remove();
+
+                tweetContainer.find('.unhide-tweet').addClass('hidden');
+                tweetContainer.find('.hide-tweet').removeClass('hidden');
+            }
+
+            //send request to hide tweet
+            $('.hide-tweet').click(function()
+            {
+                var button = $(this);
+                var tweetContainer = button.parents('.tweet');
+
+                $.ajax({
+                    url: '/hiddenTweet/hide',
+                    method: 'POST',
+                    beforeSend: function() {
+                        tweetContainer.waitMe({effect : 'bounce', bg: 'rgba(255,255,255,0.9)', color : '#55acee'});
+                    },
+                    data: {
+                        userId: button.attr('data-user-id'),
+                        tweetId: button.attr('data-tweet-id')
+                    },
+                    success: function(response) {
+                        tweetContainer.waitMe('hide');
+
+                        if (response.status) {
+                            hideTweet(tweetContainer);
+                        } else {
+                            bootbox.alert(response.message);
+                        }
+                    },
+                    error: function()
+                    {
+                        tweetContainer.waitMe('hide');
+                        bootbox.alert('An Error Occurred! try again');
+                    }
+                });
+            });
+
+            //send request to unhide tweet
+            $('.unhide-tweet').click(function()
+            {
+                var button = $(this);
+                var tweetContainer = button.parents('.tweet');
+
+                $.ajax({
+                    url: '/hiddenTweet/unhide',
+                    method: 'POST',
+                    beforeSend: function() {
+                        tweetContainer.waitMe({effect : 'bounce', bg: 'rgba(255,255,255,0.9)', color : '#55acee'});
+                    },
+                    data: {
+                        userId: button.attr('data-user-id'),
+                        tweetId: button.attr('data-tweet-id')
+                    },
+                    success: function(response) {
+                        tweetContainer.waitMe('hide');
+
+                        if (response.status) {
+                            unhideTweet(tweetContainer);
+                        } else {
+                            bootbox.alert(response.message);
+                        }
+                    },
+                    error: function()
+                    {
+                        tweetContainer.waitMe('hide');
+                        bootbox.alert('An Error Occurred! try again');
+                    }
+                });
+            });
+
+
+        });
+    </script>
+{% endblock %}

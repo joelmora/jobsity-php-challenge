@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Show Entry
+{% endblock %}
+
+{% block body %}
+    <h3>Entry <i>'{{ entry.title }}'</i></h3>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Title</th>
+            <td>{{ entry.title }}</td>
+        </tr>
+        <tr>
+            <th>Author</th>
+            <td>{{ entry.user.username }}</td>
+        </tr>
+        <tr>
+            <th>Content</th>
+            <td>
+                <p>
+                    {{ entry.content }}
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <th>Creation Date</th>
+            <td>{% if entry.creationDate %}{{ entry.creationDate|date('m/d/Y h:i A') }}{% endif %}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="action-button btn btn-default btn-sm" href="{{ path('entry_index') }}">Back to the list</a>
+    <a class="action-button btn btn-info btn-sm" href="{{ path('entry_edit', { 'id': entry.id }) }}">Edit</a>
+
+    <div class="action-button">
+        {{ form_start(delete_form) }}
+        <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+        {{ form_end(delete_form) }}
+    </div>
+
+{% endblock %}

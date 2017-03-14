@@ -1,0 +1,30 @@
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    New Entry
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-10">
+            <h3>New Entry</h3>
+        </div>
+    </div>
+
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    {{ form_row(form._token) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.content) }}
+
+    <a class="action-button btn btn-default btn-sm" href="{{ path('entry_index') }}">Back to the list</a>
+
+    <div class="action-button">
+        <button class="btn btn-success btn-sm" type="submit">Create</button>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: 3306
+    database_name: joel_mora
+    database_user: homestead
+    database_password: secret
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: 86b90694d21033f3312c1a908ebf51f4832fdd88
+    twitter_key: hM6D4DL0O7Bx5tG4Ql7N78uHQ
+    twitter_token: QWJXMATtFBuGHZpVYpnXUJVG1ScwEfamY0ouHhYC2f7pHF6TX7
+    twitter_timeline_limit: 40

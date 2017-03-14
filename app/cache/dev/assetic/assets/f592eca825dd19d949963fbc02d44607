@@ -1,0 +1,1 @@
+.action-button{float:left;margin-left:5px}#top-bar{padding:16px;background-color:#fafafa;width:100%;margin:0}#top-bar #jobsity-logo{height:35px}#top-bar .btn{margin-top:5px}#avatar-container{float:right;margin-left:10px}#avatar-container #avatar-logged-user{height:30px}#avatar-container #logged-username{color:#777}#hr{margin:0}

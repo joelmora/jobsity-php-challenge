@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Latest Entries
+{% endblock %}
+
+{% block body %}
+    <h3>Latest Entries</h3>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Creation Date</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entry in entries %}
+            <tr>
+                <td>
+                    <a href="{{ path('entries_by_user', { 'username': entry.user.username }) }}">{{ entry.user }}</a>
+                </td>
+                <td>{{ entry.title }}</td>
+                <td>{{ entry.content | slice(0,100) ~ '...'  }}</td>
+                <td>{% if entry.creationDate %}{{ entry.creationDate|date('m/d/Y h:i A') }}{% endif %}</td>
+                <td>
+                    <a class="btn btn-default btn-xs" href="{{ path('entry_show', { 'id': entry.id }) }}">Show</a>
+                    {% if app.user %}
+                        <a class="btn btn-info btn-xs" href="{{ path('entry_edit', { 'id': entry.id }) }}">Edit</a>
+                    {% endif %}
+                    <a class="btn btn-default btn-xs" href="{{ path('entries_by_user', { 'username': entry.user.username }) }}">User Entries</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {{ knp_pagination_render(entries) }}
+
+{% endblock %}

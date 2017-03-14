@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>J.M. Challenge - {% block title %}{% endblock %}</title>
+    {% stylesheets filter="scssphp" output="css/app.css"
+    "scss/_bootstrap.scss"
+    "scss/entry.scss"
+    "scss/general.scss"
+    "scss/security.scss"
+    %}
+    <link rel="stylesheet" href="{{ asset('css/waitMe.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+
+<div>
+    <div id="top-bar" class="row">
+        <div class="col-lg-4">
+            <img id="jobsity-logo" src="{{ asset('images/iconLogoJobsitySmall.png') }}">
+        </div>
+        <div class="col-lg-8" style="text-align: right">
+            {% if app.user %}
+                <a class="btn btn-success btn-xs" href="{{ path('entry_new') }}">
+                    <span class="glyphicon glyphicon-plus"></span> New Entry
+                </a>
+                <a class="btn btn-danger btn-xs" href="{{ path('fos_user_security_logout') }}">
+                    <span class="glyphicon glyphicon-log-out"></span> Log Out
+                </a>
+            {% else %}
+                <a class="btn btn-primary btn-xs" href="{{ path('fos_user_security_login') }}">
+                    <span class="glyphicon glyphicon-log-in"></span> Log In
+                </a>
+                <a class="btn btn-default btn-xs" href="{{ path('fos_user_registration_register') }}">
+                    <span class="glyphicon glyphicon-user"></span> Register
+                </a>
+            {% endif %}
+
+            {% if app.user %}
+                <div id="avatar-container">
+                    <img id="avatar-logged-user" src="{{ asset('images/avatar.jpg') }}" class="profile-image img-circle">
+                    <span id="logged-username">Welcome {{ app.user.username}}</span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <hr id="hr">
+
+</div>
+
+<div class="container-fluid">
+    {% block body %}
+        {% block fos_user_content %}
+        {% endblock fos_user_content %}
+    {% endblock %}
+</div>
+
+{% block javascripts %}
+    <script src="{{ asset('js/jquery-2.2.3.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/waitMe.min.js') }}"></script>
+    <script src="{{ asset('js/bootbox.min.js') }}"></script>
+{% endblock %}
+{% block javascript %}
+{% endblock %}
+
+</body>
+</html>

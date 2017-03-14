@@ -1,0 +1,64 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block fos_user_content %}
+    <div id="register-panel" class="panel panel-primary">
+        <div class="panel-heading">
+            Register
+        </div>
+        <div class="panel-body">
+            <form action="{{ path("fos_user_registration_register") }}" method="post">
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><span><strong>@</strong></span></div>
+                        <input type="email" id="email" class="form-control"  name="fos_user_registration_form[email]" value="" placeholder="email@domain.com" required="required" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+                        <input type="text" id="username" class="form-control"  name="fos_user_registration_form[username]" pattern=".{2,}" maxlength="255" value="" required="required" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
+                        <input type="password" class="form-control"  id="password" name="fos_user_registration_form[plainPassword][first]" required="required" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmation_password">Password Confirmation</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
+                        <input type="password" class="form-control"  id="confirmation_password" name="fos_user_registration_form[plainPassword][second]" required="required" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="twitter">Twitter</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><span><strong>@</strong></span></div>
+                        <input type="text" class="form-control" id="twitter" name="fos_user_registration_form[twitter]"  required="required" />
+                    </div>
+                </div>
+
+                {{ form_widget(form._token) }}
+
+                <input type="submit" id="_submit" class="btn btn-primary" name="_submit" value="Submit" />
+            </form>
+        </div>
+    </div>
+
+{% endblock fos_user_content %}
