@@ -25,7 +25,7 @@ Modify file **/var/www/joel_mora/app/config/parameters.yml** and set the MySQL p
 
 You may want to configure `database_host` and `database_port` depending of your needs.
 
-###4. Configure virtual host (optional)###
+### 4. Configure virtual host (optional) ###
 
 **4.1.** Modify **/etc/hosts** file:
 
